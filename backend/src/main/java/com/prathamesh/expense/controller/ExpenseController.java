@@ -1,6 +1,7 @@
 package com.prathamesh.expense.controller;
 
 import com.prathamesh.expense.entity.Expense;
+import com.prathamesh.expense.exception.ResourceNotFoundException;
 import com.prathamesh.expense.service.ExpenseService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +19,19 @@ public class ExpenseController {
 
     @PostMapping
     public Expense createExpense(@RequestBody Expense expense) {
-        return  expenseService.SaveExpense(expense);
+        return expenseService.saveExpense(expense);   // ✅ fixed method name
     }
 
     @GetMapping
     public List<Expense> getAllExpenses() {
         return expenseService.getAllExpenses();
+    }
 
+    @GetMapping("/{id}")
+    public Expense getExpenseById(@PathVariable Long id) {
+        return expenseService.getExpenseById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Expense not found with id: " + id));
     }
 
     @PutMapping("/{id}")
@@ -38,12 +45,4 @@ public class ExpenseController {
         expenseService.deleteExpense(id);
         return "Expense deleted successfully";
     }
-
-    @GetMapping("/{id}")
-    public Expense getExpenseById(@PathVariable Long id) {
-        return expenseService.getExpenseById(id)
-                .orElseThrow(() -> new RuntimeException("Expense not found with id:" + id) );
-    }
-
-
 }
