@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/expenses")
@@ -54,5 +56,20 @@ public class ExpenseController {
     public Page<Expense> getExpensesPaginated(
             @PageableDefault(size = 5, sort = "date") Pageable pageable) {
         return expenseService.getExpensesWithPagination(pageable);
+    }
+
+    @GetMapping("/monthly-summary")
+    public Map<String, Object> getMonthlySummary(
+            @RequestParam int year,
+            @RequestParam int month) {
+
+        Double totalAmount = expenseService.getMonthlyTotal(year, month);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("year", year);
+        response.put("month", month);
+        response.put("totalAmount", totalAmount);
+
+        return response;
     }
 }

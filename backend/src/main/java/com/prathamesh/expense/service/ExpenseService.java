@@ -56,4 +56,9 @@ public class ExpenseService {
         return expenseRepository.findAll(pageable);
     }
 
+    public Double getMonthlyTotal(int year, int month) {
+        Double total = expenseRepository.getTotalAmountByMonth(year, month);
+        return total != null ? total : 0.0;
+    }
+
 }
