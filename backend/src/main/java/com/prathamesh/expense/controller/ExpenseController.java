@@ -3,6 +3,7 @@ package com.prathamesh.expense.controller;
 import com.prathamesh.expense.entity.Expense;
 import com.prathamesh.expense.exception.ResourceNotFoundException;
 import com.prathamesh.expense.service.ExpenseService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class ExpenseController {
     }
 
     @PostMapping
-    public Expense createExpense(@RequestBody Expense expense) {
-        return expenseService.saveExpense(expense);   // ✅ fixed method name
+    public Expense createExpense(@Valid @RequestBody Expense expense) {
+        return expenseService.saveExpense(expense);
     }
 
     @GetMapping
@@ -36,7 +37,7 @@ public class ExpenseController {
 
     @PutMapping("/{id}")
     public Expense updateExpense(@PathVariable Long id,
-                                 @RequestBody Expense expense) {
+                                 @Valid @RequestBody Expense expense) {
         return expenseService.updateExpense(id, expense);
     }
 
