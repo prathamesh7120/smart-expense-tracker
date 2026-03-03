@@ -1,6 +1,7 @@
 package com.prathamesh.expense.service;
 
 import com.prathamesh.expense.entity.Expense;
+import com.prathamesh.expense.repository.CategorySummary;
 import com.prathamesh.expense.repository.ExpenseRepository;
 import com.prathamesh.expense.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
@@ -59,6 +60,10 @@ public class ExpenseService {
     public Double getMonthlyTotal(int year, int month) {
         Double total = expenseRepository.getTotalAmountByMonth(year, month);
         return total != null ? total : 0.0;
+    }
+
+    public List<CategorySummary> getCategorySummary(int year, int month) {
+        return expenseRepository.getCategorySummaryByMonth(year, month);
     }
 
 }

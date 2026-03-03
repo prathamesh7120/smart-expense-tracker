@@ -2,6 +2,7 @@ package com.prathamesh.expense.controller;
 
 import com.prathamesh.expense.entity.Expense;
 import com.prathamesh.expense.exception.ResourceNotFoundException;
+import com.prathamesh.expense.repository.CategorySummary;
 import com.prathamesh.expense.service.ExpenseService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -72,4 +73,14 @@ public class ExpenseController {
 
         return response;
     }
+
+    @GetMapping("/category-summary")
+    public List<CategorySummary> getCategorySummary(
+            @RequestParam int year,
+            @RequestParam int month) {
+
+        return expenseService.getCategorySummary(year, month);
+    }
+
+
 }
