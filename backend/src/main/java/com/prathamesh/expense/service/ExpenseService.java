@@ -3,6 +3,8 @@ package com.prathamesh.expense.service;
 import com.prathamesh.expense.entity.Expense;
 import com.prathamesh.expense.repository.ExpenseRepository;
 import com.prathamesh.expense.exception.ResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,4 +51,9 @@ public class ExpenseService {
 
         expenseRepository.delete(existingExpense);
     }
+
+    public Page<Expense> getExpensesWithPagination(Pageable pageable) {
+        return expenseRepository.findAll(pageable);
+    }
+
 }

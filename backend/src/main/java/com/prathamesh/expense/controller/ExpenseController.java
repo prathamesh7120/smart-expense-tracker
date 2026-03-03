@@ -4,6 +4,9 @@ import com.prathamesh.expense.entity.Expense;
 import com.prathamesh.expense.exception.ResourceNotFoundException;
 import com.prathamesh.expense.service.ExpenseService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,5 +48,11 @@ public class ExpenseController {
     public String deleteExpense(@PathVariable Long id) {
         expenseService.deleteExpense(id);
         return "Expense deleted successfully";
+    }
+
+    @GetMapping("/paginated")
+    public Page<Expense> getExpensesPaginated(
+            @PageableDefault(size = 5, sort = "date") Pageable pageable) {
+        return expenseService.getExpensesWithPagination(pageable);
     }
 }
